@@ -1,0 +1,511 @@
+Selected Filters header/bar;
+
+                Helps users to identify which filters are being applied to current page;
+
+                Summarizes items selected if more than 3 with a Count (instead of listing all items selected)
+
+ 
+
+Selected Filters =
+
+VAR MaxFilters = 3
+
+VAR Vyear =
+
+IF (
+
+    ISFILTERED ( 'Calendar-Filter'[Year] ),
+
+    VAR ___f = FILTERS ( 'Calendar-Filter'[Year] )
+
+    VAR ___r = COUNTROWS ( ___f )
+
+    VAR ___t = TOPN ( MaxFilters, ___f, 'Calendar-Filter'[Year] )
+
+    VAR ___d = CONCATENATEX ( ___t, 'Calendar-Filter'[Year], ", " )
+
+    VAR ___x = "Year = " & ___d & IF(___r > MaxFilters, ", ... [" & ___r & " items selected]") & " "
+
+    VAR ___y = IF( ___d = BLANK() , "", ___x)
+
+    RETURN ___y & UNICHAR(13) & UNICHAR(13)
+
+    
+
+)
+
+ 
+
+VAR VMonthGroups =
+
+IF (
+
+    ISFILTERED('Navigation for Dates Displayed in Header'[Page Name]),
+
+    BLANK(),
+
+    IF (
+
+        HASONEVALUE('Calendar-Filter'[MonthGroups]),
+
+        " Month = " & FORMAT(VALUES('Calendar-Filter'[MonthGroups]),"MMM YY"),
+
+        " Months = " & FORMAT(FIRSTDATE('Calendar-Filter'[date]), "MMM YY") & "–" & FORMAT(LASTDATE('Calendar-Filter'[date]), "MMM YY")
+
+    )  & UNICHAR(13) & UNICHAR(13)
+
+)
+
+ 
+
+VAR VMonthGroupsREQAPPRV =
+
+IF (
+
+    ISFILTERED('Navigation for Dates Displayed in Header'[Page Name]),
+
+    IF ( HASONEVALUE ('Calendar - Filter REQAPP-PBND'[Month Groups]),
+
+        " Month Reqs. Approved = " & FORMAT(VALUES('Calendar - Filter REQAPP-PBND'[Month Groups]),"MMM YY"),
+
+        " Months Reqs. Approved = " & FORMAT(FIRSTDATE('Calendar - Filter REQAPP-PBND'[Date]), "MMM YY") & "–" & FORMAT(LASTDATE('Calendar - Filter REQAPP-PBND'[Date]), "MMM YY")
+
+    )  & UNICHAR(13) & UNICHAR(13)
+
+)
+
+ 
+
+VAR VCBUDomain =
+
+ IF (
+
+    ISFILTERED ( 'BusinessLineFilter'[CBUDomain] ),
+
+    VAR ___f = FILTERS ( 'BusinessLineFilter'[CBUDomain] )
+
+    VAR ___r = COUNTROWS ( ___f )
+
+    VAR ___t = TOPN ( MaxFilters, ___f, 'BusinessLineFilter'[CBUDomain] )
+
+    VAR ___d = CONCATENATEX ( ___t, 'BusinessLineFilter'[CBUDomain], ", " )
+
+    VAR ___x = " CBU = " & ___d & IF(___r > MaxFilters, ", ... [" & ___r & " items selected]") & " "
+
+    VAR ___y = IF( ___d = BLANK() , "", ___x)
+
+    RETURN ___y & UNICHAR(13) & UNICHAR(13)
+
+)
+
+ 
+
+VAR VSAE =
+
+ IF (
+
+    ISFILTERED ( 'BusinessLineFilter'[GUD] ),
+
+    VAR ___f = FILTERS ( 'BusinessLineFilter'[GUD] )
+
+    VAR ___r = COUNTROWS ( ___f )
+
+    VAR ___t = TOPN ( MaxFilters, ___f, 'BusinessLineFilter'[GUD] )
+
+    VAR ___d = CONCATENATEX ( ___t, 'BusinessLineFilter'[GUD], ", " )
+
+    VAR ___x = " SAE = " & ___d & IF(___r > MaxFilters, ", ... [" & ___r & " items selected]") & " "
+
+    VAR ___y = IF( ___d = BLANK() , "", ___x)
+
+    RETURN ___y & UNICHAR(13) & UNICHAR(13)
+
+)
+
+ 
+
+VAR BL =
+
+ IF (
+
+    ISFILTERED ( 'BusinessLineFilter'[BU Filter] ),
+
+    VAR ___f = FILTERS ( 'BusinessLineFilter'[BU Filter] )
+
+    VAR ___r = COUNTROWS ( ___f )
+
+    VAR ___t = TOPN ( MaxFilters, ___f, 'BusinessLineFilter'[BU Filter] )
+
+    VAR ___d = CONCATENATEX ( ___t, 'BusinessLineFilter'[BU Filter], ", " )
+
+    VAR ___x = " BL = " & ___d & IF(___r > MaxFilters, ", ... [" & ___r & " items selected]") & " "
+
+    VAR ___y = IF( ___d = BLANK() , "", ___x)
+
+    RETURN ___y & UNICHAR(13) & UNICHAR(13)
+
+)
+
+ 
+
+VAR VCTACode =
+
+IF (
+
+    ISFILTERED ( 'CategorySegment-Filter'[CTACode] ),
+
+    VAR ___f = FILTERS ( 'CategorySegment-Filter'[CTACode] )
+
+    VAR ___r = COUNTROWS ( ___f )
+
+    VAR ___t = TOPN ( MaxFilters, ___f, 'CategorySegment-Filter'[CTACode] )
+
+    VAR ___d = CONCATENATEX ( ___t, 'CategorySegment-Filter'[CTACode], ", " )
+
+    VAR ___x = " CTA Code = " & ___d & IF(___r > MaxFilters, ", ... [" & ___r & " items selected]") & " "
+
+    VAR ___y = IF( ___d = BLANK() , "", ___x)
+
+    RETURN ___y & UNICHAR(13) & UNICHAR(13)
+
+)
+
+VAR VCategoryCode =
+
+IF (
+
+    ISFILTERED ( 'CategorySegment-Filter'[CategoryCode] ),
+
+    VAR ___f = FILTERS ( 'CategorySegment-Filter'[CategoryCode] )
+
+    VAR ___r = COUNTROWS ( ___f )
+
+    VAR ___t = TOPN ( MaxFilters, ___f, 'CategorySegment-Filter'[CategoryCode] )
+
+    VAR ___d = CONCATENATEX ( ___t, 'CategorySegment-Filter'[CategoryCode], ", " )
+
+    VAR ___x = " Category Code = " & ___d & IF(___r > MaxFilters, ", ... [" & ___r & " items selected]") & " "
+
+    VAR ___y = IF( ___d = BLANK() , "", ___x)
+
+    RETURN ___y & UNICHAR(13) & UNICHAR(13)
+
+)
+
+ 
+
+VAR VSegmentCode =
+
+IF (
+
+    ISFILTERED ( 'CategorySegment-Filter'[SegmentCode] ),
+
+    VAR ___f = FILTERS ( 'CategorySegment-Filter'[SegmentCode] )
+
+    VAR ___r = COUNTROWS ( ___f )
+
+    VAR ___t = TOPN ( MaxFilters, ___f, 'CategorySegment-Filter'[SegmentCode] )
+
+    VAR ___d = CONCATENATEX ( ___t, 'CategorySegment-Filter'[SegmentCode], ", " )
+
+    VAR ___x = " Segment Code = " & ___d & IF(___r > MaxFilters, ", ... [" & ___r & " items selected]") & " "
+
+    VAR ___y = IF( ___d = BLANK() , "", ___x)
+
+    RETURN ___y & UNICHAR(13) & UNICHAR(13)
+
+)
+
+ 
+
+VAR VBuyer =
+
+IF (
+
+    ISFILTERED ( 'Buyer-Link'[Buyer] ),
+
+    VAR ___f = FILTERS ( 'Buyer-Link'[Buyer] )
+
+    VAR ___r = COUNTROWS ( ___f )
+
+    VAR ___t = TOPN ( MaxFilters, ___f, 'Buyer-Link'[Buyer] )
+
+    VAR ___d = CONCATENATEX ( ___t, 'Buyer-Link'[Buyer], ", " )
+
+    VAR ___x = " Buyer = " & ___d & IF(___r > MaxFilters, ", ... [" & ___r & " items selected]") & " "
+
+    VAR ___y = IF( ___d = BLANK() , "", ___x)
+
+    RETURN ___y & UNICHAR(13) & UNICHAR(13)
+
+)
+
+ 
+
+VAR VSupplier =
+
+IF (
+
+ISFILTERED ( 'V_SUPPLIERDupsRemoved'[Supplier] ),
+
+VAR ___f = FILTERS ( 'V_SUPPLIERDupsRemoved'[Supplier] )
+
+VAR ___r = COUNTROWS ( ___f )
+
+VAR ___t = TOPN ( MaxFilters, ___f,'V_SUPPLIERDupsRemoved'[Supplier] )
+
+VAR ___d = CONCATENATEX ( ___t, 'V_SUPPLIERDupsRemoved'[Supplier], ", " )
+
+VAR __x = " Supplier = " & ___d & IF( ___r > MaxFilters, ", ... [" & ___r & " items selected]") & " "
+
+VAR ___y = IF( ___d = BLANK() , "", __x)
+
+RETURN ___y & UNICHAR(13) & UNICHAR(13)
+
+)
+
+ 
+
+VAR VProject =
+
+IF (
+
+    ISFILTERED ( 'Project-Filter'[Project] ),
+
+    VAR ___f = FILTERS ( 'Project-Filter'[Project] )
+
+    VAR ___r = COUNTROWS ( ___f )
+
+    VAR ___t = TOPN ( MaxFilters, ___f, 'Project-Filter'[Project] )
+
+    VAR ___d = CONCATENATEX ( ___t, 'Project-Filter'[Project], ", " )
+
+    VAR ___x = " Project = " & ___d & IF(___r > MaxFilters, ", ... [" & ___r & " items selected]") & " "
+
+    VAR ___y = IF( ___d = BLANK() , "", ___x)
+
+    RETURN ___y & UNICHAR(13) & UNICHAR(13)
+
+)
+
+ 
+
+VAR VProjectMgr =
+
+IF (
+
+    ISFILTERED ( 'Project-Filter'[Prj Manager] ),
+
+    VAR ___f = FILTERS ( 'Project-Filter'[Prj Manager] )
+
+    VAR ___r = COUNTROWS ( ___f )
+
+    VAR ___t = TOPN ( MaxFilters, ___f, 'Project-Filter'[Prj Manager] )
+
+    VAR ___d = CONCATENATEX ( ___t, 'Project-Filter'[Prj Manager], ", " )
+
+    VAR ___x = " Prj. Mgr. = " & ___d & IF(___r > MaxFilters, ", ... [" & ___r & " items selected]") & " "
+
+    VAR ___y = IF( ___d = BLANK() , "", ___x)
+
+    RETURN ___y & UNICHAR(13) & UNICHAR(13)
+
+)
+
+ 
+
+VAR VPONumber =
+
+IF (
+
+    ISFILTERED ( 'PONumber-Filter'[PONumber] ),
+
+    VAR ___f = FILTERS ( 'PONumber-Filter'[PONumber] )
+
+    VAR ___r = COUNTROWS ( ___f )
+
+    VAR ___t = TOPN ( MaxFilters, ___f, 'PONumber-Filter'[PONumber] )
+
+    VAR ___d = CONCATENATEX ( ___t, 'PONumber-Filter'[PONumber], ", " )
+
+    VAR ___x = " PO Number = " & ___d & IF(___r > MaxFilters, ", ... [" & ___r & " items selected]") & " "
+
+    VAR ___y = IF( ___d = BLANK() , "", ___x)
+
+    RETURN ___y & UNICHAR(13) & UNICHAR(13)
+
+)
+
+ 
+
+VAR VIncoterm =
+
+IF (
+
+    ISFILTERED ( 'Incoterm - Filter'[Incoterm] ),
+
+    VAR ___f = FILTERS ( 'Incoterm - Filter'[Incoterm] )
+
+    VAR ___r = COUNTROWS ( ___f )
+
+    VAR ___t = TOPN ( MaxFilters, ___f, 'Incoterm - Filter'[Incoterm] )
+
+    VAR ___d = CONCATENATEX ( ___t, 'Incoterm - Filter'[Incoterm], ", " )
+
+    VAR ___x = " Incoterm = " & ___d & IF(___r > MaxFilters, ", ... [" & ___r & " items selected]") & " "
+
+    VAR ___y = IF( ___d = BLANK() , "", ___x)
+
+    RETURN ___y & UNICHAR(13) & UNICHAR(13)
+
+)
+
+ 
+
+VAR VIntExtSuppliers =
+
+ IF (
+
+    ISFILTERED ( 'V_SUPPLIERDupsRemoved'[SupplierType] ),
+
+    VAR ___f = FILTERS ( 'V_SUPPLIERDupsRemoved'[SupplierType] )
+
+    VAR ___r = COUNTROWS ( ___f )
+
+    VAR ___t = TOPN ( MaxFilters, ___f, 'V_SUPPLIERDupsRemoved'[SupplierType] )
+
+    VAR ___d = CONCATENATEX ( ___t, 'V_SUPPLIERDupsRemoved'[SupplierType], ", " )
+
+    VAR ___x = " Int/Ext Suppliers = " & ___d & IF(___r > MaxFilters, ", ... [" & ___r & " items selected]") & " "
+
+    VAR ___y = IF( ___d = BLANK() , "", ___x)
+
+    RETURN ___y & UNICHAR(13) & UNICHAR(13)
+
+)
+
+ 
+
+VAR VOPSorGEBuyers =
+
+ IF (
+
+    ISFILTERED ( 'PONumber-Filter'[BuyerOrg] ),
+
+    VAR ___f = FILTERS ( 'PONumber-Filter'[BuyerOrg] )
+
+    VAR ___r = COUNTROWS ( ___f )
+
+    VAR ___t = TOPN ( MaxFilters, ___f, 'PONumber-Filter'[BuyerOrg] )
+
+    VAR ___d = CONCATENATEX ( ___t, 'PONumber-Filter'[BuyerOrg], ", " )
+
+    VAR ___x = " GE/OPS Buyer = " & ___d & IF(___r > MaxFilters, ", ... [" & ___r & " items selected]") & " "
+
+    VAR ___y = IF( ___d = BLANK() , "", ___x)
+
+    RETURN ___y & UNICHAR(13) & UNICHAR(13)
+
+)
+
+ 
+
+VAR VSupplierCountry =
+
+ IF (
+
+    ISFILTERED ( 'V_SUPPLIERDupsRemoved'[Country] ),
+
+    VAR ___f = FILTERS ( 'V_SUPPLIERDupsRemoved'[Country] )
+
+    VAR ___r = COUNTROWS ( ___f )
+
+    VAR ___t = TOPN ( MaxFilters, ___f, 'V_SUPPLIERDupsRemoved'[Country] )
+
+    VAR ___d = CONCATENATEX ( ___t, 'V_SUPPLIERDupsRemoved'[Country], ", " )
+
+    VAR ___x = " Country = " & ___d & IF(___r > MaxFilters, ", ... [" & ___r & " items selected]") & " "
+
+    VAR ___y = IF( ___d = BLANK() , "", ___x)
+
+    RETURN ___y & UNICHAR(13) & UNICHAR(13)
+
+)
+
+ 
+
+VAR VSupplierUKRegion =
+
+ IF (
+
+    ISFILTERED ( 'V_SUPPLIERDupsRemoved'[UKRegion] ),
+
+    VAR ___f = FILTERS ( 'V_SUPPLIERDupsRemoved'[UKRegion] )
+
+    VAR ___r = COUNTROWS ( ___f )
+
+    VAR ___t = TOPN ( MaxFilters, ___f, 'V_SUPPLIERDupsRemoved'[UKRegion] )
+
+    VAR ___d = CONCATENATEX ( ___t, 'V_SUPPLIERDupsRemoved'[UKRegion], ", " )
+
+    VAR ___x = " UK Region = " & ___d & IF(___r > MaxFilters, ", ... [" & ___r & " items selected]") & " "
+
+    VAR ___y = IF( ___d = BLANK() , "", ___x)
+
+    RETURN ___y & UNICHAR(13) & UNICHAR(13)
+
+)
+
+ 
+
+VAR VSupplierUKPD =
+
+ IF (
+
+    ISFILTERED ( 'V_SUPPLIERDupsRemoved'[PostcodeDistrict] ),
+
+    VAR ___f = FILTERS ( 'V_SUPPLIERDupsRemoved'[PostcodeDistrict] )
+
+    VAR ___r = COUNTROWS ( ___f )
+
+    VAR ___t = TOPN ( MaxFilters, ___f, 'V_SUPPLIERDupsRemoved'[PostcodeDistrict] )
+
+    VAR ___d = CONCATENATEX ( ___t, 'V_SUPPLIERDupsRemoved'[PostcodeDistrict], ", " )
+
+    VAR ___x = " UK Postcode District = " & ___d & IF(___r > MaxFilters, ", ... [" & ___r & " items selected]") & " "
+
+    VAR ___y = IF( ___d = BLANK() , "", ___x)
+
+    RETURN ___y & UNICHAR(13) & UNICHAR(13)
+
+)
+
+ 
+
+VAR ValidationStatusOPOB =
+
+ IF (
+
+    ISFILTERED ( 'OpenPOsBucket-Live'[ValidationStatus] ),
+
+    VAR ___f = FILTERS ( 'OpenPOsBucket-Live'[ValidationStatus] )
+
+    VAR ___r = COUNTROWS ( ___f )
+
+    VAR ___t = TOPN ( MaxFilters, ___f, 'OpenPOsBucket-Live'[ValidationStatus] )
+
+    VAR ___d = CONCATENATEX ( ___t, 'OpenPOsBucket-Live'[ValidationStatus], ", " )
+
+    VAR ___x = " Validation Status = " & ___d & IF(___r > MaxFilters, ", ... [" & ___r & " statuses selected]") & " "
+
+    VAR ___y = IF( ___d = BLANK() , "", ___x)
+
+    RETURN ___y & UNICHAR(13) & UNICHAR(13)
+
+)
+
+ 
+
+RETURN
+
+"Filters Applied: " & Vyear & VMonthGroups & VCBUDomain & VSAE & BL & VCTACode & VCategoryCode & VSegmentCode & VIntExtSuppliers & VBuyer & VOPSorGEBuyers & VSupplier & VProject & VProjectMgr & VPONumber & VIncoterm & VSupplierCountry & VSupplierUKRegion & VSupplierUKPD & ValidationStatusOPOB
