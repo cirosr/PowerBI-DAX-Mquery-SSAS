@@ -1,12 +1,11 @@
-# powerbi
-PowerBI Projects
+# PowerBI, DAX, Mquery and SSAS
+Repo to keep Useful Patterns for all above.
 
-Hi all, 
-
-It is my personal take on AdventureWorksDW dataset. Link below:
+# Adventure Works .pbix
+My personal take on AdventureWorksDW dataset. Link below:
 https://docs.microsoft.com/en-us/sql/samples/adventureworks-install-configure?view=sql-server-ver15&tabs=ssms
 
-Work-in-progress disclaimer including this document :)
+Work-in-progress - including this document :)
 
 Microsoft has a simpler set you can download as .pbix, the one I found in SQL Server sample had more tables so I went with it.
 
